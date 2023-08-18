@@ -1,13 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="header"></div>
+    <div class="cards"></div>
+    <div class="add-book">
+      <div class="modal">
+        <dialog id="add-book-dialog">
+          <form action="" id="add-book-form">
+            <div class="form-header">
+                <span>Add a new book</span>
+                <button id="cancel">X</button>
+            </div>
+            
+
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" />
+            <span class="title-error"></span>
+
+            <label for="author">Author</label>
+            <input type="text" name="author" id="author" />
+            <span class="author-error"></span>
+
+            <label for="num-pages">Number of Pages</label>
+            <input type="number" name="num-pages" id="num-pages" />
+            <span class="num-pages-error"></span>
+
+            <label for="read">Have you read it?</label>
+            <input type="checkbox" name="read" id="read" />
+
+            <button id="confirm-btn">Add Book</button>
+          </form>
+        </dialog>
+      </div>
+      <button id="show-dialog">New Book</button>
+    </div>
     <script src="main.js"></script>
-</body>
+  </body>
 </html>
