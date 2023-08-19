@@ -53,6 +53,12 @@ function displayBooksBy(author, startIndex) {
         removeBtn.classList.add("remove-card");
         removeBtn.textContent = "Remove";
         removeBtn.addEventListener("click", removeCard);
+
+        // create toggle read button
+        const toggleReadBtn = document.createElement("button");
+        toggleReadBtn.classList.add("toggle-read");
+        toggleReadBtn.textContent = "Read";
+        toggleReadBtn.addEventListener("click", toggleRead);
   
         // add content to card
         bookCard.appendChild(bookTitle);
@@ -60,6 +66,7 @@ function displayBooksBy(author, startIndex) {
         bookCard.appendChild(bookPages);
         bookCard.appendChild(bookRead);
         bookCard.appendChild(removeBtn);
+        bookCard.appendChild(toggleReadBtn);
   
         // add card to container
         cardsContainer.appendChild(bookCard);
@@ -73,11 +80,13 @@ function displayBooks(authorList, startIndex) {
 }
 
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, false);
-addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, false);
+addBookToLibrary("The Hobb", "J.R.R. Tolkien", 295, false);
 // addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, false);
 // addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, false);
 // addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, false);
 displayBooks(Object.keys(myLibrary), 0);
+
+// Card actions
 
 function removeCard(e) {
   const card = this.parentElement;
@@ -89,6 +98,20 @@ function removeCard(e) {
 
   card.remove();
 }
+
+function toggleRead(e) {
+    const card = this.parentElement;
+    const bookAuthor = card.querySelector(".book-author");
+    const bookTitle = card.querySelector(".book-title");
+    const bookRead = card.querySelector(".book-read");
+    const book = myLibrary[bookAuthor.innerText].find((book) => {
+        return book.title !== bookTitle.innerText;
+    });
+    book.read = book.read ? false : true;
+    bookRead.innerText = book.read;
+}
+
+
 
 // Add book dialog
 

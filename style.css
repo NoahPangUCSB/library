@@ -15,9 +15,9 @@ body {
   grid-row: 2;
   margin: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, clamp(100px, 30%, 300px));
+  grid-template-columns: repeat(auto-fit, clamp(100px, 31%, 500px));
   gap: 10px;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .card {
