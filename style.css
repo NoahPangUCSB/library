@@ -53,6 +53,6 @@ body {
 
 .title-error,
 .author-error,
-.num-pages-error {
+.num-pages-error, .book-add-error {
   color: red;
 }
