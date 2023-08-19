@@ -1,4 +1,12 @@
 const myLibrary = {};
+const stats = {
+    numBooks: 0,
+    numBooksRead: 0,
+    numAuthors: 0
+}
+
+const bookNotReadIcon = "M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z";
+const bookReadIcon = "M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z";
 
 function Book(title, author, numPages, haveRead) {
   this.title = title;
@@ -23,30 +31,82 @@ function addBookToLibrary(title, author, numPages, haveRead) {
 
 const cardsContainer = document.querySelector(".cards");
 
+function createSVG(node, dVal, svgClasses=[], pathAttrs=[]) {
+    const iconSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    const iconPath = document.createElementNS(
+        "http://www.w3.org/2000/svg", 
+        "path"
+    );
+    iconSvg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    iconSvg.setAttribute('fill', 'currentColor');
+    iconSvg.setAttribute('viewBox', '0 0 16 16');
+    iconSvg.classList.add('post-icon');
+    for(let i = 0; i < svgClasses.length; i++) {
+        iconSvg.classList.add(svgClasses[i]);
+    }
+
+    for(let i = 0; i < pathAttrs.length; i++) {
+        iconPath.setAttribute(pathAttrs[i][0], pathAttrs[i][1]);
+    }
+    iconPath.setAttribute("d", dVal);
+    
+
+    iconSvg.appendChild(iconPath);
+
+    return node.appendChild(iconSvg);
+}
+
 function displayBooksBy(author, startIndex) {
     for (let i = startIndex; i < myLibrary[author].length; i++) {
         // create card
         const thisBook = myLibrary[author][i];
         const bookCard = document.createElement("div");
         bookCard.classList.add("card");
+
+        // create svg icons
+        const bookIcon = document.createElement("div");
+        bookIcon.classList.add("book-icon");
+        createSVG(bookIcon, "M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z");
+        // bookIcon.setAttribute("d", "M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z");
   
-        // create text content
-        const bookTitle = document.createElement("span");
+        // create content
+        const bookTitle = document.createElement("p");
         bookTitle.classList.add("book-title");
         bookTitle.textContent = thisBook.title;
-        
-  
-        const bookAuthor = document.createElement("span");
+
+        const bookInfoDiv = document.createElement("div");
+        bookInfoDiv.classList.add("book-info");
+
+        const bookAuthorDiv = document.createElement("div")
+        bookAuthorDiv.classList.add("book-author-container")
+        const authorIcon = document.createElement("div");
+        authorIcon.classList.add("author-icon");
+        createSVG(authorIcon, "M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z");
+        const bookAuthor = document.createElement("p");
         bookAuthor.classList.add("book-author");
         bookAuthor.textContent = thisBook.author;
+        bookAuthorDiv.appendChild(authorIcon);
+        bookAuthorDiv.appendChild(bookAuthor);
   
-        const bookPages = document.createElement("span");
+        const bookPagesDiv = document.createElement("div")
+        bookPagesDiv.classList.add("book-pages-container")
+        const pagesIcon = document.createElement("div");
+        pagesIcon.classList.add("pages-icon");
+        createSVG(pagesIcon, "M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z");
+        const bookPages = document.createElement("p");
         bookPages.classList.add("book-num-pages");
         bookPages.textContent = thisBook.numPages;
+        bookPagesDiv.appendChild(pagesIcon);
+        bookPagesDiv.appendChild(bookPages);
+
+        bookInfoDiv.appendChild(bookAuthorDiv);
+        bookInfoDiv.appendChild(bookPagesDiv);
   
-        const bookRead = document.createElement("span");
+        const bookRead = document.createElement("p");
         bookRead.classList.add("book-read");
-        bookRead.textContent = thisBook.haveRead;
+        
+        thisBook.haveRead === false ? createSVG(bookRead, bookNotReadIcon)
+                                    : createSVG(bookRead, bookReadIcon);
   
         // create remove button
         const removeBtn = document.createElement("button");
@@ -61,12 +121,13 @@ function displayBooksBy(author, startIndex) {
         toggleReadBtn.addEventListener("click", toggleRead);
   
         // add content to card
+        bookCard.appendChild(bookIcon);
         bookCard.appendChild(bookTitle);
-        bookCard.appendChild(bookAuthor);
-        bookCard.appendChild(bookPages);
+        bookCard.appendChild(bookInfoDiv);
         bookCard.appendChild(bookRead);
-        bookCard.appendChild(removeBtn);
         bookCard.appendChild(toggleReadBtn);
+        bookCard.appendChild(removeBtn);
+        
   
         // add card to container
         cardsContainer.appendChild(bookCard);
@@ -80,8 +141,8 @@ function displayBooks(authorList, startIndex) {
 }
 
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, false);
-addBookToLibrary("The Hobb", "J.R.R. Tolkien", 295, false);
-// addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, false);
+addBookToLibrary("The Hobb", "J.R.R. Tolkien", 295, true);
+addBookToLibrary("Tdfdkfnlsjdansfkjnfsdjdfkldsklsfdsdfjlksdfljkfsdlkjsd", "J.R.R. Tolkien", 295, false);
 // addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, false);
 // addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, false);
 displayBooks(Object.keys(myLibrary), 0);
@@ -105,10 +166,13 @@ function toggleRead(e) {
     const bookTitle = card.querySelector(".book-title");
     const bookRead = card.querySelector(".book-read");
     const book = myLibrary[bookAuthor.innerText].find((book) => {
-        return book.title !== bookTitle.innerText;
+        return book.title === bookTitle.innerText;
     });
-    book.read = book.read ? false : true;
-    bookRead.innerText = book.read;
+    const bookReadSVG = bookRead.querySelector("svg");
+    bookRead.removeChild(bookReadSVG);
+
+    book.haveRead = book.haveRead ? false : true;
+    book.haveRead ? createSVG(bookRead, bookReadIcon, ["bi", "bi-bookmark-check-fill"], [["fill-rule", "evenodd"]]) : createSVG(bookRead, bookNotReadIcon);
 }
 
 

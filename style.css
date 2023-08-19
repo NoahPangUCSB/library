@@ -1,13 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
 
+:root {
+    --shadow-color: #9ca3af;
+    --main-back-color: #d1d5db;
+}
+
 body {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   margin: 0;
   padding: 0;
   font-family: Roboto, sans-serif;
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
   grid-template-rows: 200px auto;
+  background-color: var(--main-back-color);
 }
 
 .cards {
@@ -15,20 +21,47 @@ body {
   grid-row: 2;
   margin: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, clamp(100px, 31%, 500px));
+  grid-template-columns: repeat(auto-fit, clamp(100px, 31%, 500px)); /* clamp(100px, 31%, 500px) */
   gap: 10px;
   justify-content: space-evenly;
 }
 
 .card {
-  border: solid;
-  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 10px;
+  background-color: white;
+  border-radius: 5px;
+box-shadow: 3px 3px 3px var(--shadow-color);
 }
+
+p {
+    word-break: break-all;
+}
+
+.book-title {
+    font-weight: bold;
+    font-size: large;
+}
+
 
 .header {
   grid-column: 1 / 4;
   grid-row: 1;
-  border: solid;
+  background-color: white;
+    box-shadow: 3px 3px 3px var(--shadow-color);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.library-name {
+    grid-column: 1;
+    font-size: 100px;
+    font-weight: bold;
+    align-self: end;
+    margin: 20px;
 }
 
 .add-book dialog {
@@ -71,7 +104,7 @@ body {
     margin:4px;
     padding: 10px;
     background-color: #3b82f6;
-    box-shadow: 0px 0px 7px #9ca3af;
+    box-shadow: 0px 0px 7px var(--shadow-color);
 }
 
 #show-dialog:before, #show-dialog:after {
@@ -95,4 +128,56 @@ body {
 
 #show-dialog:hover {
     transform: scale(1.5) perspective(1px)
+}
+
+.book-icon {
+    width: 25px;
+    justify-self: center;
+}
+
+.author-icon, .pages-icon {
+    width: 25px;
+    align-self: center;
+}
+
+.book-author-container, .book-pages-container {
+    display: flex;
+    gap: 10px;
+}
+
+.book-info {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.book-read {
+    width: 35px;
+    align-self: center;
+}
+
+.toggle-read, .remove-card {
+    width: 50%;
+    align-self: center;
+    font-size: medium;
+    padding: 10px;
+    border-radius: 10px;
+    border: hidden;
+    box-shadow: 3px 3px 5px var(--shadow-color);
+}
+
+.toggle-read {
+    background-color: #3b82f6;
+}
+
+.toggle-read:hover {
+    background-color: #1e40af;
+}
+
+.remove-card {
+    background-color: #ef4444;
+}
+
+.remove-card:hover {
+    background-color: #991b1b;
 }
