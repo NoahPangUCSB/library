@@ -7,6 +7,9 @@ const stats = {
 
 const bookNotReadIcon = "M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z";
 const bookReadIcon = "M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5zm8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z";
+const bookIconVal = "M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z";
+const authorIconVal = "M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z";
+const pagesIconVal = "M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z";
 
 function Book(title, author, numPages, haveRead) {
   this.title = title;
@@ -25,7 +28,14 @@ function addBookToLibrary(title, author, numPages, haveRead) {
     myLibrary[author].push(newBook);
   } else {
     myLibrary[author] = [newBook];
+    stats.numAuthors += 1;
   }
+  stats.numBooks += 1;
+  if(haveRead) {
+    stats.numBooksRead += 1;
+  }
+  updateStatsDisplay();
+
   return true;
 }
 
@@ -66,7 +76,7 @@ function displayBooksBy(author, startIndex) {
         // create svg icons
         const bookIcon = document.createElement("div");
         bookIcon.classList.add("book-icon");
-        createSVG(bookIcon, "M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z");
+        createSVG(bookIcon, bookIconVal);
         // bookIcon.setAttribute("d", "M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z");
   
         // create content
@@ -81,7 +91,7 @@ function displayBooksBy(author, startIndex) {
         bookAuthorDiv.classList.add("book-author-container")
         const authorIcon = document.createElement("div");
         authorIcon.classList.add("author-icon");
-        createSVG(authorIcon, "M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z");
+        createSVG(authorIcon, authorIconVal);
         const bookAuthor = document.createElement("p");
         bookAuthor.classList.add("book-author");
         bookAuthor.textContent = thisBook.author;
@@ -92,7 +102,7 @@ function displayBooksBy(author, startIndex) {
         bookPagesDiv.classList.add("book-pages-container")
         const pagesIcon = document.createElement("div");
         pagesIcon.classList.add("pages-icon");
-        createSVG(pagesIcon, "M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z");
+        createSVG(pagesIcon, pagesIconVal);
         const bookPages = document.createElement("p");
         bookPages.classList.add("book-num-pages");
         bookPages.textContent = thisBook.numPages;
@@ -140,12 +150,85 @@ function displayBooks(authorList, startIndex) {
   }
 }
 
+initStatsDisplay();
 addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, false);
 addBookToLibrary("The Hobb", "J.R.R. Tolkien", 295, true);
 addBookToLibrary("Tdfdkfnlsjdansfkjnfsdjdfkldsklsfdsdfjlksdfljkfsdlkjsd", "J.R.R. Tolkien", 295, false);
 // addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, false);
 // addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, false);
+
 displayBooks(Object.keys(myLibrary), 0);
+
+
+// Stats
+
+function initStatsDisplay() {
+    const header = document.querySelector(".header");
+
+    const statsDisplay = document.createElement("div");
+    statsDisplay.classList.add("stats-display");
+
+    const bookIcon = document.createElement("div");
+    bookIcon.classList.add("book-icon");
+    createSVG(bookIcon, bookIconVal);
+    const numBooksDisplay = document.createElement("div");
+    numBooksDisplay.classList.add("num-books-display");
+    const numBooks = document.createElement("span");
+    numBooks.classList.add("num-books");
+    numBooks.textContent = stats.numBooks;
+    const numBooksTitle = document.createElement("span");
+    numBooksTitle.classList.add("num-books-title");
+    numBooksTitle.textContent = "Number of Books:";
+    numBooksDisplay.appendChild(bookIcon);
+    numBooksDisplay.appendChild(numBooksTitle);
+    numBooksDisplay.appendChild(numBooks);
+
+    const authorIcon = document.createElement("div");
+    authorIcon.classList.add("author-icon");
+    createSVG(authorIcon, authorIconVal);
+    const numAuthorsDisplay = document.createElement("div");
+    numAuthorsDisplay.classList.add("num-authors-display");
+    const numAuthors = document.createElement("span");
+    numAuthors.classList.add("num-authors");
+    numAuthors.textContent = stats.numAuthors;
+    const numAuthorsTitle = document.createElement("span");
+    numAuthorsTitle.classList.add("num-authors-title");
+    numAuthorsTitle.textContent = "Number of Authors:";
+    numAuthorsDisplay.appendChild(authorIcon);
+    numAuthorsDisplay.appendChild(numAuthorsTitle);
+    numAuthorsDisplay.appendChild(numAuthors);
+
+    const bookRead = document.createElement("div");
+    bookRead.classList.add("book-read");
+    createSVG(bookRead, bookReadIcon)
+    const numBooksReadDisplay = document.createElement("div");
+    numBooksReadDisplay.classList.add("num-books-read-display");
+    const numBooksRead = document.createElement("span");
+    numBooksRead.classList.add("num-books-read");
+    numBooksRead.textContent = stats.numBooksRead;
+    const numBooksReadTitle = document.createElement("span");
+    numBooksReadTitle.classList.add("num-books-read-title");
+    numBooksReadTitle.textContent = "Number of Books Read:";
+    numBooksReadDisplay.appendChild(bookRead);
+    numBooksReadDisplay.appendChild(numBooksReadTitle);
+    numBooksReadDisplay.appendChild(numBooksRead);
+
+    statsDisplay.appendChild(numBooksDisplay);
+    statsDisplay.appendChild(numAuthorsDisplay);
+    statsDisplay.appendChild(numBooksReadDisplay);
+
+    header.appendChild(statsDisplay);
+}
+
+function updateStatsDisplay() {
+    const numBooks = document.querySelector(".num-books");
+    const numAuthors = document.querySelector(".num-authors");
+    const numBooksRead = document.querySelector(".num-books-read");
+
+    numBooks.textContent = stats.numBooks;
+    numAuthors.textContent = stats.numAuthors;
+    numBooksRead.textContent = stats.numBooksRead;
+}
 
 // Card actions
 
@@ -153,10 +236,20 @@ function removeCard(e) {
   const card = this.parentElement;
   const bookAuthor = card.querySelector(".book-author");
   const bookTitle = card.querySelector(".book-title");
-  myLibrary[bookAuthor.innerText] = myLibrary[bookAuthor.innerText].filter((book) => {
-    return book.title !== bookTitle.innerText;
+  const bookIndex = myLibrary[bookAuthor.innerText].findIndex((book) => {
+    return book.title === bookTitle.innerText;
   });
-
+  
+  if(myLibrary[bookAuthor.innerText][bookIndex].haveRead) {
+    stats.numBooksRead -= 1;
+  }
+  myLibrary[bookAuthor.innerText].splice(bookIndex, 1);
+  if(myLibrary[bookAuthor.innerText].length === 0) {
+    stats.numAuthors -= 1;
+    delete myLibrary[bookAuthor.innerText];
+  }
+  stats.numBooks -= 1;
+  updateStatsDisplay();
   card.remove();
 }
 
@@ -173,6 +266,8 @@ function toggleRead(e) {
 
     book.haveRead = book.haveRead ? false : true;
     book.haveRead ? createSVG(bookRead, bookReadIcon, ["bi", "bi-bookmark-check-fill"], [["fill-rule", "evenodd"]]) : createSVG(bookRead, bookNotReadIcon);
+    book.haveRead ? stats.numBooksRead += 1 : stats.numBooksRead -= 1;
+    updateStatsDisplay();
 }
 
 

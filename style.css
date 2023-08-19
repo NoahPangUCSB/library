@@ -181,3 +181,18 @@ p {
 .remove-card:hover {
     background-color: #991b1b;
 }
+
+.stats-display {
+    align-self: center;
+    justify-self: end;
+    margin-right: 50px;
+    font-size: x-large;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.num-books-display, .num-authors-display, .num-books-read-display {
+    display: flex;
+    gap: 15px;
+}
