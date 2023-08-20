@@ -12,7 +12,7 @@ body {
   font-family: Roboto, sans-serif;
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
-  grid-template-rows: 200px auto;
+  grid-template-rows: 150px auto;
   background-color: var(--main-back-color);
 }
 
@@ -253,10 +253,14 @@ p {
   align-self: center;
   justify-self: end;
   margin-right: 50px;
-  font-size: x-large;
+  font-size: large;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 13px;
+}
+
+.stats-display svg {
+    width: 22px;
 }
 
 .num-books-display,
