@@ -212,6 +212,10 @@ p {
   align-self: center;
 }
 
+.num-books-read-display .book-read {
+    width: 25px;
+}
+
 .toggle-read,
 .remove-card,
 #confirm-btn {
